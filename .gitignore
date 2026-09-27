@@ -1,0 +1,25 @@
+# Compiled binaries
+*.exe
+a.out
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Trained model (regeneratable)
+*.pkl
+
+# Generated outputs
+plagiarism_report.txt
+
+# Editor settings
+.vscode/
+
+# Archives
+*.zip
+
+# Demo / lecturer files
+dsa.docx
+DSA_Mini_Project_Guidelines_Topics.docx
+guildelines.txt
