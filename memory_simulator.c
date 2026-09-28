@@ -244,7 +244,7 @@ int main() {
     process[0] = 212; process[1] = 417; process[2] = 112; process[3] = 426;
 
     printf("========================================================\n");
-    printf("        MEMORY ALLOCATION SIMULATOR USING DOUBLY LINKED LIST\n");
+    printf("        MEMORY ALLOCATION SIMULATOR\n");
     printf("========================================================\n");
     printf("Loaded default inputs: 5 Blocks (100, 500, 200, 300, 600 KB)\n");
     printf("                       4 Processes (212, 417, 112, 426 KB)\n");
