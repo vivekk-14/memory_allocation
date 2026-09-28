@@ -261,7 +261,7 @@ void worstFit() {
 int main() {
     int choice;
 
-    // default values load chesamu - test cheyyadaniki every time type cheyyakunda easy avutundi
+    // default values load chesam
     numBlocks = 5;
     memory[0] = 100; memory[1] = 500; memory[2] = 200; memory[3] = 300; memory[4] = 600;
 
@@ -274,7 +274,6 @@ int main() {
     printf("Loaded default inputs: 5 Blocks (100, 500, 200, 300, 600 KB)\n");
     printf("                       4 Processes (212, 417, 112, 426 KB)\n");
 
-    // infinite loop - user 6 press chesthe exit avutundi
     while (1) {
         printf("\n------------- MENU -------------\n");
         printf("1. Enter New Memory Blocks and Processes\n");
@@ -286,23 +285,23 @@ int main() {
         printf("--------------------------------\n");
         printf("Enter your choice: ");
 
-        // invalid input unte loop break avutundi
+        
         if (scanf("%d", &choice) != 1) break;
 
         switch (choice) {
             case 1:
-                // kotta memory blocks and processes enter cheyyadaniki
+                
                 inputMemory();
                 inputProcess();
                 break;
             case 2:
-                firstFit();  // first fit run chesamu
+                firstFit();  
                 break;
             case 3:
-                bestFit();   // best fit run chesamu
+                bestFit();   
                 break;
             case 4:
-                worstFit();  // worst fit run chesamu
+                worstFit();  
                 break;
             case 5: {
                 // current memory blocks display chesamu - DLL state show avutundi
@@ -313,7 +312,7 @@ int main() {
             }
             case 6:
                 printf("\nExiting program.\n");
-                return 0; // program end
+                return 0;
             default:
                 printf("\nInvalid choice! Please select 1 to 6.\n");
         }
