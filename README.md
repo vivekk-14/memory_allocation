@@ -21,7 +21,9 @@
 - [Why Doubly Linked List?](#-why-doubly-linked-list)
 - [AI Model Details](#-ai-model-details)
 - [Team](#-team)
-- [Viva Prep](#-viva-prep)
+- [Sample Workload Results](#-sample-workload-results)
+- [Common Errors & Fixes](#️-common-errors--fixes)
+- [Workflow for Future Changes](#-workflow-for-future-changes)
 
 ---
 
@@ -285,22 +287,39 @@ NULL <-- [Block 1: 100KB] <--> [Block 2: 500KB] <--> [Block 3: 200KB] --> NULL
 
 ---
 
-## 🎓 Viva Prep
+## 🧪 Sample Workload Results
 
-**Q: Why DLL over an array?**  
-Array requires O(n) shifting to split/merge blocks. DLL does it in O(1) with pointer updates. The `prev` pointer also allows O(1) left-neighbor coalescing which is impossible without it.
+Default test: **5 blocks** (100, 500, 200, 300, 600 KB) | **4 processes** (212, 417, 112, 426 KB)
 
-**Q: What is external fragmentation?**  
-Total free memory is enough but no single contiguous hole fits the process. Memory is scattered in small isolated holes.
+| Algorithm | P1 (212 KB) | P2 (417 KB) | P3 (112 KB) | P4 (426 KB) | Allocated | Free Left |
+|-----------|-------------|-------------|-------------|-------------|:---------:|:---------:|
+| First Fit | Block 2 | Block 5 | Block 2 | ❌ | 3/4 | 651 KB |
+| Best Fit  | Block 2 | Block 5 | Block 3 | ❌ | 3/4 | 651 KB |
+| Worst Fit | Block 5 | Block 2 | Block 5 | ❌ | 3/4 | 651 KB |
 
-**Q: When does Best Fit lose to Worst Fit?**  
-Best Fit creates many tiny unusable leftover holes over time. Worst Fit leaves large residual holes that can still fit future processes.
+> P4 (426 KB) goes unallocated in all three — after earlier allocations no single block is large enough.
 
-**Q: How does the AI pick a strategy?**  
-Key signals: `memory_pressure` (demand/supply ratio), `max_size_ratio`, and `std_process_size`. High pressure → Best Fit. Large blocks + high variance → Worst Fit. Balanced → First Fit.
+---
 
-**Q: Why is `.pkl` not in the repo?**  
-It's regeneratable from source in ~10 seconds. Binary blobs add size, aren't human-readable, and pickle files can be a security risk if tampered with.
+## ⚠️ Common Errors & Fixes
 
-**Q: What does the scoring formula do?**  
-`score = allocations × 1000 − free_memory`. Allocation count is the priority (×1000). Free memory is a tie-breaker — less fragmentation wins when allocation counts are equal.
+| Problem | Cause | Fix |
+|---------|-------|-----|
+| `gcc: command not found` | GCC not installed or not in PATH | Install [MinGW](https://www.mingw-w64.org/) and add `bin/` to system PATH |
+| `ModuleNotFoundError: sklearn` | scikit-learn not installed | Run `pip install scikit-learn` |
+| `model file missing - running training first` | `memory_ai_model.pkl` not found | Normal — it auto-trains. Wait ~10 seconds |
+| `Set-Location: positional parameter` error | Path has spaces, no quotes | Use `cd "C:\path\with spaces"` |
+| Process shows `Not Allocated` | No block large enough for that process | Expected — increase block sizes or reduce process size |
+| Git `src refspec main does not match` | No commits made yet | Run `git add` and `git commit` before pushing |
+
+---
+
+## 🔄 Workflow for Future Changes
+
+Made changes to the code? Push them to GitHub in 3 commands:
+
+```powershell
+git add .
+git commit -m "describe your change here"
+git push
+```
