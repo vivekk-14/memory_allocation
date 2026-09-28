@@ -1,4 +1,4 @@
-# 🧠 AI-Based Dynamic Memory Allocation Simulator
+#  AI-Based Dynamic Memory Allocation Simulator
 
 > A C + Python project that simulates OS memory allocation using a Doubly Linked List and recommends the best strategy using a trained AI model.
 
@@ -8,7 +8,7 @@
 
 ---
 
-## 📌 Table of Contents
+##  Table of Contents
 
 - [About the Project](#-about-the-project)
 - [Project Structure](#-project-structure)
@@ -22,12 +22,11 @@
 - [AI Model Details](#-ai-model-details)
 - [Team](#-team)
 - [Sample Workload Results](#-sample-workload-results)
-- [Common Errors & Fixes](#️-common-errors--fixes)
-- [Workflow for Future Changes](#-workflow-for-future-changes)
+
 
 ---
 
-## 📖 About the Project
+##  About the Project
 
 When an OS loads processes into RAM, it must decide **which free memory block to assign** to each process. Bad decisions cause **memory fragmentation** — scattered free holes that together have enough space but no single hole is large enough.
 
@@ -38,7 +37,7 @@ This project:
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 memory_allocation/
@@ -56,7 +55,7 @@ memory_allocation/
 
 ---
 
-## ⚙️ How It Works
+##  How It Works
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -81,7 +80,7 @@ memory_allocation/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Requirements
 
@@ -99,7 +98,7 @@ pip install numpy pandas scikit-learn
 
 ---
 
-## 💻 Using the C Simulator
+##  Using the C Simulator
 
 ### Step 1 — Compile
 
@@ -145,7 +144,7 @@ Default values are pre-loaded so you can press `2`, `3`, or `4` right away witho
 
 ---
 
-## 🤖 Using the AI Recommender
+##  Using the AI Recommender
 
 ### Run
 
@@ -204,7 +203,7 @@ python train_ai.py
 
 ---
 
-## 📊 Algorithm Comparison
+##  Algorithm Comparison
 
 | Algorithm | How it picks a block | Speed | Best used when |
 |-----------|---------------------|-------|----------------|
@@ -214,7 +213,7 @@ python train_ai.py
 
 ---
 
-## 📈 Complexity Analysis
+## Complexity Analysis
 
 | Operation | First Fit | Best Fit | Worst Fit |
 |-----------|:---------:|:--------:|:---------:|
@@ -229,7 +228,7 @@ python train_ai.py
 
 ---
 
-## 🔗 Why Doubly Linked List?
+##  Why Doubly Linked List?
 
 Physical memory is a sequence of adjacent partitions. A Doubly Linked List maps this perfectly:
 
@@ -246,7 +245,7 @@ NULL <-- [Block 1: 100KB] <--> [Block 2: 500KB] <--> [Block 3: 200KB] --> NULL
 
 ---
 
-## 🧬 AI Model Details
+##  AI Model Details
 
 ### Training data
 - **5,000 synthetic workloads** generated across 3 archetypes: tight partitions, large varied blocks, balanced general
@@ -276,18 +275,18 @@ NULL <-- [Block 1: 100KB] <--> [Block 2: 500KB] <--> [Block 3: 200KB] --> NULL
 
 ---
 
-## 👥 Team
+##  Team
 
 | Role | Covers |
 |------|--------|
-| **Student 1** — Data Structure | `struct Block`, DLL design, pointer management, coalescing |
+| **Student 1** — Data Structure | `struct Block`, Doubly Linked List design, pointer management, coalescing |
 | **Student 2** — Algorithms | `firstFit()`, `bestFit()`, `worstFit()` logic and search behaviour |
 | **Student 3** — Analysis | Complexity tables, fragmentation comparison, algorithm trade-offs |
 | **Student 4** — AI Module | `train_ai.py`, `ai_recommender.py`, feature engineering, model results |
 
 ---
 
-## 🧪 Sample Workload Results
+##  Sample Workload Results
 
 Default test: **5 blocks** (100, 500, 200, 300, 600 KB) | **4 processes** (212, 417, 112, 426 KB)
 
@@ -300,26 +299,3 @@ Default test: **5 blocks** (100, 500, 200, 300, 600 KB) | **4 processes** (212, 
 > P4 (426 KB) goes unallocated in all three — after earlier allocations no single block is large enough.
 
 ---
-
-## ⚠️ Common Errors & Fixes
-
-| Problem | Cause | Fix |
-|---------|-------|-----|
-| `gcc: command not found` | GCC not installed or not in PATH | Install [MinGW](https://www.mingw-w64.org/) and add `bin/` to system PATH |
-| `ModuleNotFoundError: sklearn` | scikit-learn not installed | Run `pip install scikit-learn` |
-| `model file missing - running training first` | `memory_ai_model.pkl` not found | Normal — it auto-trains. Wait ~10 seconds |
-| `Set-Location: positional parameter` error | Path has spaces, no quotes | Use `cd "C:\path\with spaces"` |
-| Process shows `Not Allocated` | No block large enough for that process | Expected — increase block sizes or reduce process size |
-| Git `src refspec main does not match` | No commits made yet | Run `git add` and `git commit` before pushing |
-
----
-
-## 🔄 Workflow for Future Changes
-
-Made changes to the code? Push them to GitHub in 3 commands:
-
-```powershell
-git add .
-git commit -m "describe your change here"
-git push
-```
