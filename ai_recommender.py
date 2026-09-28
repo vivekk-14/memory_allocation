@@ -1,6 +1,6 @@
 # ai_recommender.py
-# loads the saved model and tells us which memory allocation strategy
-# works best for the given input. also runs all 3 algos manually to verify.
+# saved model load chesi which memory allocation strategy best o cheptundi
+# anni 3 algos manually run chesi verify kooda chesamu
 
 import os
 import pickle
@@ -8,30 +8,30 @@ import numpy as np
 import pandas as pd
 
 
-# this function just runs all three allocation algorithms and tells
-# us how many processes got allocated and how much memory is left unused
+# ee function anni 3 algorithms run chesi results return chesamu
+# evvaro processes allocate ayyayo, evvaro memory waste ayyindo cheppadaniki
 def simulate(blocks, processes):
 
-    # first fit - scan from start, take first block that fits
-    temp = blocks.copy()
+    # first fit - list start nunchi scan, first fit ayye block ki allocate
+    temp = blocks.copy()  # original blocks modify avvakunda copy use chesamu
     ff = 0
     for p in processes:
         for i in range(len(temp)):
             if temp[i] >= p:
                 temp[i] = temp[i] - p
                 ff += 1
-                break
+                break  # first fit - dorikithe stop
     leftover_ff = sum(temp)
 
-    # best fit - find the smallest block that still fits the process
+    # best fit - anni blocks scan chesi smallest leftover isthe block choose chesamu
     temp2 = blocks.copy()
     bf = 0
     for p in processes:
         chosen = -1
-        smallest = float('inf')
+        smallest = float('inf')  # initially chala pedda number
         for i in range(len(temp2)):
             rem = temp2[i] - p
-            if rem >= 0 and rem < smallest:
+            if rem >= 0 and rem < smallest:  # ee block better unte update chesamu
                 smallest = rem
                 chosen = i
         if chosen >= 0:
@@ -39,7 +39,8 @@ def simulate(blocks, processes):
             bf += 1
     leftover_bf = sum(temp2)
 
-    # worst fit - pick the biggest available block each time
+    # worst fit - biggest available block ni pick chesamu
+    # idea: peddha hole use chesthe leftover kooda peddha ga untundi - future ki useful
     temp3 = blocks.copy()
     wf = 0
     for p in processes:
@@ -47,7 +48,7 @@ def simulate(blocks, processes):
         biggest = -1
         for i in range(len(temp3)):
             rem = temp3[i] - p
-            if rem >= 0 and rem > biggest:
+            if rem >= 0 and rem > biggest:  # best fit ki opposite - max kosam chusthamu
                 biggest = rem
                 chosen = i
         if chosen >= 0:
@@ -64,20 +65,21 @@ def simulate(blocks, processes):
 
 def predict_best_strategy(blocks, processes):
 
-    # check if the model file exists, if not we need to train first
+    # model file unda leeda chekc chesamu - lekapothe training run chesamu
     if not os.path.exists("memory_ai_model.pkl"):
         print("model file missing - running training first")
         import train_ai
         train_ai.train_model()
 
+    # pkl file open chesi model load chesamu
     f = open("memory_ai_model.pkl", "rb")
     data = pickle.load(f)
     f.close()
 
     model = data["model"]
-    cols  = data["features"]
+    cols  = data["features"]  # training lo use chesina same column order kavali
 
-    # calculate workload stats to feed into the model
+    # workload stats calculate chesamu - ivi model ki input avutayi
     tot_mem  = sum(blocks)
     tot_req  = sum(processes)
     avg_p    = float(np.mean(processes))
@@ -85,15 +87,18 @@ def predict_best_strategy(blocks, processes):
     max_b    = max(blocks)
     max_p    = max(processes)
     min_p    = min(processes)
+    # memory pressure - demand vs supply ratio
+    # high unte memory tight ga undi ani artham - best fit suggest avutundi
     pressure = tot_req / tot_mem if tot_mem > 0 else 0.0
 
-    # need std dev but only if more than one element
+    # std dev calculate chesamu - oka element unte std dev 0 avutundi so check chesamu
     sd_p = float(np.std(processes)) if len(processes) > 1 else 0.0
     sd_b = float(np.std(blocks))    if len(blocks) > 1    else 0.0
 
+    # biggest process vs biggest block ratio - fit avutunda leeda ani telustundi
     ratio = max_p / max_b if max_b > 0 else 0.0
 
-    # put everything into a single-row dataframe matching training columns
+    # anni features oka dictionary lo pettamu - model ki feed cheyyadaniki
     sample = {
         "num_blocks":        len(blocks),
         "total_memory":      tot_mem,
@@ -109,13 +114,14 @@ def predict_best_strategy(blocks, processes):
         "mean_block_size":   round(avg_b, 2),
         "max_size_ratio":    round(ratio, 4)
     }
+    # column order training tho exactly match avvaali - lekapothe wrong prediction vastundi
     df_input = pd.DataFrame([sample])[cols]
 
-    result    = model.predict(df_input)[0]
-    conf      = model.predict_proba(df_input)[0]
-    labels    = model.classes_
+    result    = model.predict(df_input)[0]       # predicted strategy
+    conf      = model.predict_proba(df_input)[0]  # each strategy ki confidence percentage
+    labels    = model.classes_                    # class names alphabetical order lo untayi
 
-    # simulate all three and compare with what the model predicted
+    # actual ga 3 algorithms run chesi model prediction verify chesamu
     sim_out = simulate(blocks, processes)
 
     print()
@@ -131,13 +137,13 @@ def predict_best_strategy(blocks, processes):
     print()
     print("  Model confidence:")
     for lbl, c in zip(labels, conf):
-        filled = int(c * 30)
+        filled = int(c * 30)  # percentage ni bar length ga convert chesamu
         print(f"    {lbl:<12}  {c*100:.1f}%  {'|' * filled}")
     print()
     print("  Simulation results (all three algorithms):")
     print(f"    {'Strategy':<13}  Allocated  Free memory")
     for name, r in sim_out.items():
-        marker = "  <-- AI pick" if name == result else ""
+        marker = "  <-- AI pick" if name == result else ""  # AI pick ni highlight chesamu
         print(f"    {name:<13}  {r['alloc']}/{len(processes)}        {r['free']} KB{marker}")
     print("--------------------------------------------------------------")
     print()
@@ -151,9 +157,11 @@ if __name__ == "__main__":
     ch = input("Choice (1/2): ").strip()
 
     if ch == "2":
+        # user custom values enter chesthe split chesi list lo store chesamu
         blocks    = [int(x) for x in input("Block sizes (space separated): ").split()]
         processes = [int(x) for x in input("Process sizes (space separated): ").split()]
     else:
+        # default test values - C simulator tho same workload use chesamu
         blocks    = [100, 500, 200, 300, 600]
         processes = [212, 417, 112, 426]
 
