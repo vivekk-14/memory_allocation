@@ -1,4 +1,3 @@
-# ai_recommender.py
 # saved model load chesi which memory allocation strategy best o cheptundi
 # anni 3 algos manually run chesi verify kooda chesamu
 
